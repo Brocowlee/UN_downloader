@@ -5,7 +5,7 @@
 1. **Clone the repository or download the script:**
 
     ```sh
-    git clone <repository_url>
+    git clone https://github.com/Brocowlee/UN_downloader
     cd <repository_directory>
     ```
 
