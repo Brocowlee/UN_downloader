@@ -6,7 +6,7 @@
 
     ```sh
     git clone https://github.com/Brocowlee/UN_downloader
-    cd <repository_directory>
+    cd UN_downloader
     ```
 
 2. **Create a virtual environment:**
