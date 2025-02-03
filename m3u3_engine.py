@@ -74,9 +74,10 @@ def merge_audio(ts_files, output_mp3, progress_var, progress_bar, waiting_label)
 def start_download():
     m3u8_url = url_entry.get()
     output_folder = filedialog.askdirectory(title="Select Output Folder")
+    output_filename = output_entry.get()
 
-    if not m3u8_url or not output_folder:
-        messagebox.showerror("Error", "Please provide a valid URL and output folder.")
+    if not m3u8_url or not output_folder or not output_filename:
+        messagebox.showerror("Error", "Please provide a valid URL, output folder, and output file name.")
         return
 
     # Create progress window
@@ -93,7 +94,7 @@ def start_download():
     def download_and_merge():
         try:
             ts_files = download_ts_files(m3u8_url, output_folder, progress_var, progress_bar)
-            output_mp3 = os.path.join(output_folder, "output.mp3")
+            output_mp3 = os.path.join(output_folder, f"{output_filename}.mp3")
             merge_audio(ts_files, output_mp3, progress_var, progress_bar, waiting_label)
 
             # Cleanup downloaded .ts files
@@ -109,7 +110,7 @@ def start_download():
     threading.Thread(target=download_and_merge).start()
 
 def create_gui():
-    global root, url_entry, progress_var
+    global root, url_entry, output_entry, progress_var
     root = tk.Tk()
     root.title("M3U8 Audio Downloader")
 
@@ -120,8 +121,12 @@ def create_gui():
     url_entry = tk.Entry(frame, width=50)
     url_entry.grid(row=0, column=1, padx=5, pady=5)
 
+    tk.Label(frame, text="Output File Name:").grid(row=1, column=0, sticky="w")
+    output_entry = tk.Entry(frame, width=50)
+    output_entry.grid(row=1, column=1, padx=5, pady=5)
+
     download_button = tk.Button(frame, text="Download and Merge", command=start_download)
-    download_button.grid(row=1, column=0, columnspan=2, pady=10)
+    download_button.grid(row=2, column=0, columnspan=2, pady=10)
 
     progress_var = tk.DoubleVar()
 
